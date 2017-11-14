@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpTransformer", "HttpTransformer\HttpTransformer.csproj", "{C0D0C4D1-7FEC-4E0D-9183-8893026D3038}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpTargetHost", "HttpTargetHost\HttpTargetHost.csproj", "{9E6C2319-AE4F-48AB-B551-F6FB0E35900F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpTransfomerService", "HttpTransfomerService\HttpTransfomerService.csproj", "{27B0F9D9-7D07-46FA-A4F2-9F315ABDC831}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientTestTransfomer", "HttpClientTestTransfomer\HttpClientTestTransfomer.csproj", "{10400EA3-33D4-42BC-98F5-3A5E1FF68A6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpTransfomerService-01", "HttpTransfomerService-01\HttpTransfomerService-01.csproj", "{7703C0C5-449B-4FD2-A534-49EC96881520}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransBus", "TransBus\TransBus.csproj", "{23ACFD07-E7B2-4EC9-9129-9A8FF2A9CCF4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0D0C4D1-7FEC-4E0D-9183-8893026D3038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0D0C4D1-7FEC-4E0D-9183-8893026D3038}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0D0C4D1-7FEC-4E0D-9183-8893026D3038}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0D0C4D1-7FEC-4E0D-9183-8893026D3038}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E6C2319-AE4F-48AB-B551-F6FB0E35900F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E6C2319-AE4F-48AB-B551-F6FB0E35900F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E6C2319-AE4F-48AB-B551-F6FB0E35900F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E6C2319-AE4F-48AB-B551-F6FB0E35900F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27B0F9D9-7D07-46FA-A4F2-9F315ABDC831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27B0F9D9-7D07-46FA-A4F2-9F315ABDC831}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27B0F9D9-7D07-46FA-A4F2-9F315ABDC831}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27B0F9D9-7D07-46FA-A4F2-9F315ABDC831}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10400EA3-33D4-42BC-98F5-3A5E1FF68A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10400EA3-33D4-42BC-98F5-3A5E1FF68A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10400EA3-33D4-42BC-98F5-3A5E1FF68A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10400EA3-33D4-42BC-98F5-3A5E1FF68A6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7703C0C5-449B-4FD2-A534-49EC96881520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7703C0C5-449B-4FD2-A534-49EC96881520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7703C0C5-449B-4FD2-A534-49EC96881520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7703C0C5-449B-4FD2-A534-49EC96881520}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23ACFD07-E7B2-4EC9-9129-9A8FF2A9CCF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23ACFD07-E7B2-4EC9-9129-9A8FF2A9CCF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23ACFD07-E7B2-4EC9-9129-9A8FF2A9CCF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23ACFD07-E7B2-4EC9-9129-9A8FF2A9CCF4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C97215BC-824F-4C1F-B23C-650D2B1D745F}
+	EndGlobalSection
+EndGlobal
