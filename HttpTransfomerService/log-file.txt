@@ -5,4 +5,22 @@
 2017-11-14 23:14:14,503 [35] INFO  LogFileAppender [(null)]  - no redict
 [Footer] [Header] 2017-11-14 23:19:03,700 [29] INFO  LogFileAppender [(null)]  - no redict
 [Footer] [Header] 2017-11-14 23:28:38,538 [38] INFO  LogFileAppender [(null)]  - no redict
-[Footer] 
+[Footer] [Header] [Footer] [Header] [Footer] [Header] [Footer] [Header] 2017-11-15 10:09:18,060 [24] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!
+2017-11-15 10:09:18,097 [24] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!
+2017-11-15 10:11:48,384 [24] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!
+2017-11-15 10:11:48,398 [24] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!
+[Footer] [Header] 2017-11-15 10:22:04,375 [8] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!
+2017-11-15 10:22:04,397 [8] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!
+2017-11-15 10:24:51,866 [14] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!
+2017-11-15 10:24:51,876 [14] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!
+2017-11-15 10:29:04,731 [7] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!
+2017-11-15 10:29:23,883 [7] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!
+[Footer] [Header] 2017-11-15 10:33:27,655 [28] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!msg: System.InvalidOperationException: 头名称误用。请确保将请求头用于 HttpRequestMessage，将响应头用于 HttpResponseMessage，将内容头用于 HttpContent 对象。
+   在 System.Net.Http.Headers.HttpHeaders.CheckHeaderName(String name)
+   在 System.Net.Http.Headers.HttpHeaders.Add(String name, String value)
+   在 HttpTransfomerService.Fliter.RequestHandler.SetRequestHead(HttpClient nrq, HttpRequest orq) 位置 E:\工作文档\私人文件\slt\TransBus\HttpTransfomerService\Fliter\RequestHandler.cs:行号 289
+2017-11-15 10:33:27,711 [28] ERROR LogFileAppender [(null)]  - SetRequestHead ERROR!msg: System.InvalidOperationException: 头名称误用。请确保将请求头用于 HttpRequestMessage，将响应头用于 HttpResponseMessage，将内容头用于 HttpContent 对象。
+   在 System.Net.Http.Headers.HttpHeaders.CheckHeaderName(String name)
+   在 System.Net.Http.Headers.HttpHeaders.Add(String name, String value)
+   在 HttpTransfomerService.Fliter.RequestHandler.SetRequestHead(HttpClient nrq, HttpRequest orq) 位置 E:\工作文档\私人文件\slt\TransBus\HttpTransfomerService\Fliter\RequestHandler.cs:行号 289
+[Footer] [Header] [Footer] [Header] [Footer] [Header] [Footer] [Header] [Footer] [Header] [Footer] [Header] [Footer] [Header] [Footer] [Header] [Footer] 

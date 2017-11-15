@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Web;
 using HttpTransfomerService.Log;
@@ -9,10 +12,11 @@ using log4net;
 
 namespace HttpTransfomerService.Fliter
 {
-    public class RequestHandler: IHttpModule
+    public class RequestHandler : IHttpModule
     {
         private static ILog _log = Logger.Log;
         private static HttpWebRequest hRequest;
+
         public void Dispose()
         {
 
@@ -20,12 +24,13 @@ namespace HttpTransfomerService.Fliter
 
         public void Init(HttpApplication context)
         {
-            context.BeginRequest += context_BeginRequest;
+            context.BeginRequest += BeginRequest;
 
         }
 
         public HttpRequest Request { get; set; }
         private readonly string defaultUrl = "http://116.62.232.164:9898/";
+
         /// <summary>
         /// 要将Http请求转发 到 的 目标Url
         /// </summary>
@@ -50,10 +55,7 @@ namespace HttpTransfomerService.Fliter
         /// </summary>
         public string ToUrlHost
         {
-            get
-            {
-                return ToUrl.Host;
-            }
+            get { return ToUrl.Host; }
         }
 
         /// <summary>
@@ -85,10 +87,7 @@ namespace HttpTransfomerService.Fliter
         /// </summary>
         public string FromUrlHost
         {
-            get
-            {
-                return FromUrl.Host;
-            }
+            get { return FromUrl.Host; }
         }
 
         /// <summary>
@@ -243,7 +242,7 @@ namespace HttpTransfomerService.Fliter
 
                 respone.End();
             }
-           
+
             catch (Exception exception)
             {
                 _log.Error(exception);
@@ -255,6 +254,116 @@ namespace HttpTransfomerService.Fliter
             }
         }
 
+        void BeginRequest(object sender, EventArgs e)
+        {
+
+            using (HttpApplication app = sender as HttpApplication)
+            {
+                if (app.Request.Headers["TransToUrl"] == null || app.Request.Headers["TransToUrl"] == "")
+                    return;
+                using (var client = new HttpClient())
+                {
+                    this.Request = app.Request;
+                    FromUrl = new Uri(Request.Url.ToString());
+                    SetRequestHead(client, Request);
+                    SetRequestSpecialHead(client, Request);
+                    HttpContent hc = new StreamContent(app.Request.InputStream);
+                    SetRequestSpecialHead(hc, Request);
+                    var response = client.PostAsync(app.Request.Headers["TransToUrl"], hc).Result;
+                    var respone = app.Response;
+                    SetResponsHeader(response, respone);
+                    SetResponeBody(response, respone);
+                    respone.End();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 设置请求头
+        /// </summary>
+        /// <param name="nrq"></param>
+        /// <param name="orq"></param>
+        private void SetRequestHead(HttpClient nrq, HttpRequest orq)
+        {
+            foreach (var key in orq.Headers.AllKeys)
+            {
+                try
+                {
+                    nrq.DefaultRequestHeaders.Add(key, orq.Headers[key]);
+                }
+                catch (Exception e)
+                {
+                    //_log.Error("SetRequestHead ERROR!msg: " +e);
+                    continue;
+                }
+
+            }
+        }
+        /// <summary>
+        /// 设置特殊请求头
+        /// </summary>
+        /// <param name="nrq"></param>
+        /// <param name="orq"></param>
+        private void SetRequestSpecialHead(HttpClient nrq, HttpRequest request)
+        {
+            #region 设置特殊请求头
+            //if (!string.IsNullOrEmpty(request.Headers["Accept"]))
+            //{
+            //    var accept = new MediaTypeWithQualityHeaderValue(request.Headers["Accept"]);
+            //    nrq.DefaultRequestHeaders.Accept.Add(accept);
+            //}
+            if (!string.IsNullOrEmpty(request.Headers["Connection"]))
+            {
+                nrq.DefaultRequestHeaders.Connection.Add(request.Headers["Connection"]);
+
+            }
+
+            //if (!string.IsNullOrEmpty(request.Headers["Expect"]))
+            //{
+            //    hRequest.Expect = request.Headers["Expect"];
+            //}
+            if (!string.IsNullOrEmpty(request.Headers["Date"]))
+            {
+                nrq.DefaultRequestHeaders.Date = Convert.ToDateTime(request.Headers["Date"]);
+            }
+            if (!string.IsNullOrEmpty(request.Headers["Host"]))
+            {
+                nrq.DefaultRequestHeaders.Host = this.ToUrlHost;
+            }
+            if (!string.IsNullOrEmpty(request.Headers["If-Modified-Since"]))
+            {
+                nrq.DefaultRequestHeaders.IfModifiedSince = Convert.ToDateTime(request.Headers["If-Modified-Since"]);
+            }
+            if (!string.IsNullOrEmpty(request.Headers["Referer"]))
+            {
+                nrq.DefaultRequestHeaders.Referrer = new Uri(this.ReplaceHostAndPort(request.Headers["Referer"], TransType.TransTo));
+            }
+            //if (!string.IsNullOrEmpty(request.Headers["User-Agent"]))
+            //{
+            //    var agent =new ProductInfoHeaderValue(request.Headers["User-Agent"]);
+            //    nrq.DefaultRequestHeaders.UserAgent.Add(agent);
+            //}
+            //if (!string.IsNullOrEmpty(request.Headers["Content-Length"]))
+            //{
+            //    var length = new MediaTypeWithQualityHeaderValue(request.Headers["Content-Length"]);
+            //    nrq.DefaultRequestHeaders.Accept.Add(length);
+            //}
+
+            #endregion
+        }
+
+        private void SetRequestSpecialHead(HttpContent httpContent, HttpRequest request)
+        {
+            if (!string.IsNullOrEmpty(request.Headers["Content-Type"]))
+            {
+                var contentType = new MediaTypeWithQualityHeaderValue(request.Headers["Content-Type"]);
+                httpContent.Headers.ContentType = contentType;
+            }
+            if (!string.IsNullOrEmpty(request.Headers["Content-Length"]))
+            {
+                httpContent.Headers.ContentLength= long.Parse(request.Headers["Content-Length"]);
+            }
+        }
         /// <summary>
         /// 设置请求头
         /// </summary>
@@ -307,7 +416,7 @@ namespace HttpTransfomerService.Fliter
                 Console.WriteLine(e);
                 throw;
             }
-            
+
         }
 
         /// <summary>
@@ -336,8 +445,8 @@ namespace HttpTransfomerService.Fliter
         /// 设置响应报文体
         /// </summary>
         /// <param name="nrp"></param>
-        /// <param name="orp"></param>
-        private void SetResponeBody(WebResponse nrp, HttpResponse orp)
+        /// <param name="respone"></param>
+        private void SetResponeBody(WebResponse nrp, HttpResponse respone)
         {
             var nStream = nrp.GetResponseStream();
             byte[] buffer = new byte[1024 * 2];
@@ -345,7 +454,43 @@ namespace HttpTransfomerService.Fliter
             do
             {
                 rLength = nStream.Read(buffer, 0, buffer.Length);
-                orp.OutputStream.Write(buffer, 0, rLength);
+                respone.OutputStream.Write(buffer, 0, rLength);
+            } while (rLength > 0);
+        }
+
+        private void SetResponsHeader(HttpResponseMessage hRespone, HttpResponse respone)
+        {
+            foreach (var header in hRespone.Headers)
+            {
+                try
+                {
+                    if (header.Value.FirstOrDefault() != null)
+                        respone.Headers.Add(header.Key, header.Value.FirstOrDefault());
+                }
+                catch (Exception)
+                {
+
+                    continue;
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// 设置响应报文体
+        /// </summary>
+        /// <param name="hRespone"></param>
+        /// <param name="respone"></param>
+        private void SetResponeBody(HttpResponseMessage hRespone, HttpResponse respone)
+        {
+
+            var nStream = hRespone.Content.ReadAsStreamAsync().Result;
+            byte[] buffer = new byte[1024 * 2];
+            int rLength = 0;
+            do
+            {
+                rLength = nStream.Read(buffer, 0, buffer.Length);
+                respone.OutputStream.Write(buffer, 0, rLength);
             } while (rLength > 0);
         }
 
@@ -369,6 +514,7 @@ namespace HttpTransfomerService.Fliter
             }
         }
     }
+
     public enum TransType
     {
         TransTo,
